@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+/* Ad Unit Styles - Prevent layout shift */
+.ad-unit {
+  min-height: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.ad-unit:empty {
+  min-height: 50px;
+  background: linear-gradient(
+    110deg,
+    #f3f4f6 30%,
+    #e5e7eb 50%,
+    #f3f4f6 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Prose styles for article content */
+.prose h2 {
+  @apply mt-8 mb-4 text-2xl font-bold text-gray-900;
+}
+
+.prose h3 {
+  @apply mt-6 mb-3 text-xl font-semibold text-gray-900;
+}
+
+.prose p {
+  @apply mb-4 leading-relaxed text-gray-700;
+}
+
+.prose ul,
+.prose ol {
+  @apply mb-4 pl-6;
+}
+
+.prose ul {
+  @apply list-disc;
+}
+
+.prose ol {
+  @apply list-decimal;
+}
+
+.prose li {
+  @apply mb-1;
+}
+
+.prose strong {
+  @apply font-semibold text-gray-900;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus styles */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-blue-500;
+}
+
+/* Line clamp utility */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
