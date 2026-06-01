@@ -1,0 +1,56 @@
+Options -MultiViews
+RewriteEngine On
+
+# Redirect HTTP to HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove trailing slashes
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# Handle React Router — send all requests to index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+
+# ─── Security Headers ─────────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# ─── Compression ──────────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ─── Browser Caching ──────────────────────────────────────────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    # HTML — no cache (always fresh for SPA)
+    ExpiresByType text/html                 "access plus 0 seconds"
+    # Images
+    ExpiresByType image/png                 "access plus 1 year"
+    ExpiresByType image/jpeg                "access plus 1 year"
+    ExpiresByType image/webp                "access plus 1 year"
+    ExpiresByType image/svg+xml             "access plus 1 year"
+    ExpiresByType image/x-icon              "access plus 1 year"
+    # Fonts
+    ExpiresByType font/woff2                "access plus 1 year"
+    ExpiresByType font/woff                 "access plus 1 year"
+    # CSS & JS
+    ExpiresByType text/css                  "access plus 1 year"
+    ExpiresByType application/javascript    "access plus 1 year"
+</IfModule>
+
+# ─── Block access to sensitive files ──────────────────────────────────────────
+<FilesMatch "(^\.env|\.git|\.htpasswd|composer\.(json|lock)|package\.json)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
