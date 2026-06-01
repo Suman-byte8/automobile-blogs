@@ -1,26 +1,33 @@
-// blogData.js
-// Imports directly from each category file and assembles the full post list.
-// The split blogs/ folder is the source of truth; this file wires it to the app.
+// Blogs — root index
+// Aggregates all categories and re-exports utility helpers so existing
+// imports from blogData.js can be migrated here gradually.
 
-import carNewsPosts from "./blogs/news/car-news.js";
-import bikeNewsPosts from "./blogs/news/bike-news.js";
-import evNewsPosts from "./blogs/news/ev-news.js";
-import motorsportPosts from "./blogs/news/motorsport.js";
-import vehicleReviewsPosts from "./blogs/reviews/vehicle-reviews.js";
-import comparisonsPosts from "./blogs/reviews/comparisons.js";
-import buyingGuidesPosts from "./blogs/guides/buying-guides.js";
-import accessoriesPosts from "./blogs/guides/accessories.js";
+import newsPosts, { carNewsPosts, bikeNewsPosts, evNewsPosts, motorsportPosts } from "./news/index.js";
+import reviewsPosts, { vehicleReviewsPosts, comparisonsPosts } from "./reviews/index.js";
+import guidesPosts, { buyingGuidesPosts, accessoriesPosts } from "./guides/index.js";
 
-const blogPosts = [
-  ...carNewsPosts,
-  ...bikeNewsPosts,
-  ...evNewsPosts,
-  ...motorsportPosts,
-  ...vehicleReviewsPosts,
-  ...comparisonsPosts,
-  ...buyingGuidesPosts,
-  ...accessoriesPosts,
-];
+// Re-export individual sub-categories for granular imports
+export {
+  // News
+  carNewsPosts,
+  bikeNewsPosts,
+  evNewsPosts,
+  motorsportPosts,
+  // Reviews
+  vehicleReviewsPosts,
+  comparisonsPosts,
+  // Guides
+  buyingGuidesPosts,
+  accessoriesPosts,
+};
+
+// Re-export category groups
+export { newsPosts, reviewsPosts, guidesPosts };
+
+// All posts combined (preserves original blogPosts shape)
+const blogPosts = [...newsPosts, ...reviewsPosts, ...guidesPosts];
+
+// ─── Category metadata ────────────────────────────────────────────────────────
 
 export const categoryNames = {
   "car-news": "Car News",
@@ -43,6 +50,8 @@ export const categoryParents = {
   "buying-guides": "guides",
   accessories: "guides",
 };
+
+// ─── Utility helpers ──────────────────────────────────────────────────────────
 
 export function getPostsByCategory(category, page = 1, perPage = 6) {
   const filtered = blogPosts.filter((post) => post.category === category);

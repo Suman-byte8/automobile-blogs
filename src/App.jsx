@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Newsletter from "./components/Newsletter";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy-loaded pages
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -26,6 +27,7 @@ function PageLoader() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="flex min-h-screen flex-col bg-white">
         <Navbar />
         <main className="flex-1">
