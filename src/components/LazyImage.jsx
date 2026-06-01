@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import noImage from "../assets/no-image.png";
 
 export default function LazyImage({
   src,
@@ -9,7 +10,13 @@ export default function LazyImage({
 }) {
   const [loaded, setLoaded] = useState(false);
   const [inView, setInView] = useState(false);
+  const [imgSrc, setImgSrc] = useState(src);
   const imgRef = useRef(null);
+
+  useEffect(() => {
+    setImgSrc(src);
+    setLoaded(false);
+  }, [src]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -41,12 +48,16 @@ export default function LazyImage({
             <div className="absolute inset-0 animate-pulse bg-gray-300" />
           )}
           <img
-            src={src}
+            src={imgSrc}
             alt={alt}
             width={width}
             height={height}
             loading="lazy"
             onLoad={() => setLoaded(true)}
+            onError={() => {
+              setImgSrc(noImage);
+              setLoaded(true);
+            }}
             className={`h-full w-full object-cover transition-opacity duration-500 ${
               loaded ? "opacity-100" : "opacity-0"
             }`}
