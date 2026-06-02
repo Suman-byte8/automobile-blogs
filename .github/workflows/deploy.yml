@@ -30,7 +30,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # optional: port: 21
+          port: 21
+          security: loose
           local-dir: ./dist/
           server-dir: /home/u254707459/domains/slategrey-tarsier-393209.hostingersite.com/public_html/
           dangerous-clean-slate: true
