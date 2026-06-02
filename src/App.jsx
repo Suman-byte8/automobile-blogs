@@ -68,7 +68,7 @@ export default function App() {
             </Routes>
           </Suspense>
         </main>
-        <Newsletter />
+        {/* <Newsletter /> */}
         <Footer />
       </div>
     </BrowserRouter>
