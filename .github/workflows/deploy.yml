@@ -30,7 +30,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          protocol: ftps
-          local-dir: ./dist/
-          server-dir: /public_html/
+          # optional: port: 21
+          local-dir: ./dist
+          remote-dir: /home/u254707459/domains/slategrey-tarsier-393209.hostingersite.com/public_html
+          delete-remote: true
