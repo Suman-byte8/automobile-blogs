@@ -1,47 +1,73 @@
-// blogData.js
-// Imports directly from each category file and assembles the full post list.
-// The split blogs/ folder is the source of truth; this file wires it to the app.
-
 import carNewsPosts from "./blogs/news/car-news.js";
 import bikeNewsPosts from "./blogs/news/bike-news.js";
-import evNewsPosts from "./blogs/news/ev-news.js";
+import evCarsPosts from "./blogs/news/ev-news.js";
 import motorsportPosts from "./blogs/news/motorsport.js";
-import vehicleReviewsPosts from "./blogs/reviews/vehicle-reviews.js";
-import comparisonsPosts from "./blogs/reviews/comparisons.js";
-import buyingGuidesPosts from "./blogs/guides/buying-guides.js";
+import carsReviewsPosts from "./blogs/reviews/vehicle-reviews.js";
+import carsComparePosts from "./blogs/reviews/comparisons.js";
+import buyingGuidePosts from "./blogs/guides/buying-guides.js";
 import accessoriesPosts from "./blogs/guides/accessories.js";
+import carsPricesPosts from "./blogs/cars/prices.js";
+import bikesNewsPosts from "./blogs/bikes/news.js";
+import bikesReviewsPosts from "./blogs/bikes/reviews.js";
+import bikesPricesPosts from "./blogs/bikes/prices.js";
+import bikesComparePosts from "./blogs/bikes/compare.js";
+import evBikesPosts from "./blogs/ev/bikes.js";
+import insurancePosts from "./blogs/insurance/index.js";
+import regionalPosts from "./blogs/regional/index.js";
 
 const blogPosts = [
   ...carNewsPosts,
   ...bikeNewsPosts,
-  ...evNewsPosts,
+  ...evCarsPosts,
   ...motorsportPosts,
-  ...vehicleReviewsPosts,
-  ...comparisonsPosts,
-  ...buyingGuidesPosts,
+  ...carsReviewsPosts,
+  ...carsComparePosts,
+  ...buyingGuidePosts,
   ...accessoriesPosts,
+  ...carsPricesPosts,
+  ...bikesNewsPosts,
+  ...bikesReviewsPosts,
+  ...bikesPricesPosts,
+  ...bikesComparePosts,
+  ...evBikesPosts,
+  ...insurancePosts,
+  ...regionalPosts,
 ];
 
 export const categoryNames = {
-  "car-news": "Car News",
-  "bike-news": "Bike News",
-  "ev-news": "EV News",
-  motorsport: "Motorsport",
-  "vehicle-reviews": "Vehicle Reviews",
-  comparisons: "Comparisons",
-  "buying-guides": "Buying Guides",
-  accessories: "Accessories",
+  "cars-news": "Car News",
+  "cars-reviews": "Car Reviews",
+  "cars-prices": "Car Prices",
+  "cars-compare": "Car Comparisons",
+  "bikes-news": "Bike News",
+  "bikes-reviews": "Bike Reviews",
+  "bikes-prices": "Bike Prices",
+  "bikes-compare": "Bike Comparisons",
+  "ev-cars": "EV Cars",
+  "ev-bikes": "EV Bikes",
+  "buying-guide": "Buying Guide",
+  "insurance": "Insurance",
+  "accessories": "Accessories",
+  "regional": "Regional",
+  "motorsport": "Motorsport",
 };
 
 export const categoryParents = {
-  "car-news": "news",
-  "bike-news": "news",
-  "ev-news": "news",
-  motorsport: "news",
-  "vehicle-reviews": "reviews",
-  comparisons: "reviews",
-  "buying-guides": "guides",
-  accessories: "guides",
+  "cars-news": "cars",
+  "cars-reviews": "cars",
+  "cars-prices": "cars",
+  "cars-compare": "cars",
+  "bikes-news": "bikes",
+  "bikes-reviews": "bikes",
+  "bikes-prices": "bikes",
+  "bikes-compare": "bikes",
+  "ev-cars": "ev",
+  "ev-bikes": "ev",
+  "buying-guide": null,
+  "insurance": null,
+  "accessories": null,
+  "regional": null,
+  "motorsport": "cars",
 };
 
 export function getPostsByCategory(category, page = 1, perPage = 6) {
@@ -71,9 +97,7 @@ export function getPostBySlug(slug) {
 
 export function getRelatedPosts(post) {
   if (!post || !post.relatedPosts) return [];
-  return post.relatedPosts
-    .map((id) => blogPosts.find((p) => p.id === id))
-    .filter(Boolean);
+  return post.relatedPosts.map((id) => blogPosts.find((p) => p.id === id)).filter(Boolean);
 }
 
 export function getRecentPosts(excludeSlug = null, limit = 4) {

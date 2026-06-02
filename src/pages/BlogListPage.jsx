@@ -1,4 +1,4 @@
-import { useParams, useSearchParams, Link } from "react-router-dom";
+import { useLocation, useSearchParams, Link } from "react-router-dom";
 import { Helmet } from "../components/Helmet";
 import BlogCard from "../components/BlogCard";
 import Pagination from "../components/Pagination";
@@ -9,35 +9,54 @@ import {
   categoryNames,
   categoryParents,
 } from "../config/blogData";
-import navigationConfig, { findNavItem } from "../config/navigationConfig";
+import navigationConfig from "../config/navigationConfig";
+
+// Map URL path (without leading slash) to category slug
+const pathToCategoryMap = {
+  "cars/news": "cars-news",
+  "cars/reviews": "cars-reviews",
+  "cars/prices": "cars-prices",
+  "cars/compare": "cars-compare",
+  "bikes/news": "bikes-news",
+  "bikes/reviews": "bikes-reviews",
+  "bikes/prices": "bikes-prices",
+  "bikes/compare": "bikes-compare",
+  "ev/cars": "ev-cars",
+  "ev/bikes": "ev-bikes",
+  "buying-guide": "buying-guide",
+  "insurance": "insurance",
+  "accessories": "accessories",
+  "regional": "regional",
+};
 
 export default function BlogListPage() {
-  const { "*": categoryPath } = useParams();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
 
-  const currentCategory = categoryPath || "";
-  const { posts, total, totalPages } = getPostsByCategory(
-    currentCategory,
-    page,
-    6
-  );
+  // Strip leading and trailing slashes, then map to category key
+  const rawPath = location.pathname.replace(/^\//, "").replace(/\/$/, "");
+  const currentCategory = pathToCategoryMap[rawPath] || rawPath;
+
+  const { posts, total, totalPages } = getPostsByCategory(currentCategory, page, 6);
 
   const categoryLabel =
     categoryNames[currentCategory] ||
-    findNavItem(`/category/${currentCategory}`)?.label ||
-    "All Posts";
+    currentCategory
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
 
-  const parentCategory = categoryParents[currentCategory];
+  const parentId = categoryParents[currentCategory];
 
   // Breadcrumbs
   const breadcrumbs = [{ label: "Home", path: "/" }];
-  if (parentCategory) {
-    const parentItem = navigationConfig.find((n) => n.id === parentCategory);
+  if (parentId) {
+    const parentItem = navigationConfig.find((n) => n.id === parentId);
     if (parentItem) {
       breadcrumbs.push({
         label: parentItem.label,
-        path: `/category/${parentCategory}`,
+        path: parentItem.path,
       });
     }
   }
@@ -120,7 +139,7 @@ export default function BlogListPage() {
             <Pagination
               currentPage={page}
               totalPages={totalPages}
-              basePath={`/category/${currentCategory}`}
+              basePath={`/${rawPath}`}
             />
           </div>
 

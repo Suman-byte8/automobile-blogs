@@ -1,6 +1,3 @@
-// Navigation Configuration
-// Parent-child structure with dropdown menus and sub-menus
-
 const navigationConfig = [
   {
     id: "home",
@@ -10,76 +7,66 @@ const navigationConfig = [
     children: [],
   },
   {
-    id: "news",
-    label: "News",
-    path: "/category/news",
+    id: "cars",
+    label: "Cars",
+    path: "/cars/news",
     hasDropdown: true,
     children: [
-      {
-        id: "car-news",
-        label: "Car News",
-        path: "/category/car-news",
-        description: "Latest updates from the automobile world",
-      },
-      {
-        id: "bike-news",
-        label: "Bike News",
-        path: "/category/bike-news",
-        description: "Two-wheeler launches and updates",
-      },
-      {
-        id: "ev-news",
-        label: "EV News",
-        path: "/category/ev-news",
-        description: "Electric vehicle industry developments",
-      },
-      {
-        id: "motorsport",
-        label: "Motorsport",
-        path: "/category/motorsport",
-        description: "F1, MotoGP, WRC and more",
-      },
+      { id: "cars-news", label: "News", path: "/cars/news", description: "Latest car news and launches" },
+      { id: "cars-reviews", label: "Reviews", path: "/cars/reviews", description: "First drives and ownership reviews" },
+      { id: "cars-prices", label: "Prices", path: "/cars/prices", description: "Price updates and variants" },
+      { id: "cars-compare", label: "Compare", path: "/cars/compare", description: "Head-to-head comparisons" },
     ],
   },
   {
-    id: "reviews",
-    label: "Reviews",
-    path: "/category/reviews",
+    id: "bikes",
+    label: "Bikes",
+    path: "/bikes/news",
     hasDropdown: true,
     children: [
-      {
-        id: "vehicle-reviews",
-        label: "Vehicle Reviews",
-        path: "/category/vehicle-reviews",
-        description: "In-depth vehicle test drives and reviews",
-      },
-      {
-        id: "comparisons",
-        label: "Comparisons",
-        path: "/category/comparisons",
-        description: "Head-to-head vehicle comparisons",
-      },
+      { id: "bikes-news", label: "News", path: "/bikes/news", description: "Latest bike news and launches" },
+      { id: "bikes-reviews", label: "Reviews", path: "/bikes/reviews", description: "Bike first drives and reviews" },
+      { id: "bikes-prices", label: "Prices", path: "/bikes/prices", description: "Bike price updates" },
+      { id: "bikes-compare", label: "Compare", path: "/bikes/compare", description: "Bike head-to-head comparisons" },
     ],
   },
   {
-    id: "guides",
-    label: "Guides",
-    path: "/category/guides",
+    id: "ev",
+    label: "EV",
+    path: "/ev/cars",
     hasDropdown: true,
     children: [
-      {
-        id: "buying-guides",
-        label: "Buying Guides",
-        path: "/category/buying-guides",
-        description: "Expert advice for your next purchase",
-      },
-      {
-        id: "accessories",
-        label: "Accessories",
-        path: "/category/accessories",
-        description: "Best gear and accessories reviewed",
-      },
+      { id: "ev-cars", label: "EV Cars", path: "/ev/cars", description: "Electric car news and reviews" },
+      { id: "ev-bikes", label: "EV Bikes", path: "/ev/bikes", description: "Electric bike news and reviews" },
     ],
+  },
+  {
+    id: "buying-guide",
+    label: "Buying Guide",
+    path: "/buying-guide",
+    hasDropdown: false,
+    children: [],
+  },
+  {
+    id: "insurance",
+    label: "Insurance",
+    path: "/insurance",
+    hasDropdown: false,
+    children: [],
+  },
+  {
+    id: "accessories",
+    label: "Accessories",
+    path: "/accessories",
+    hasDropdown: false,
+    children: [],
+  },
+  {
+    id: "regional",
+    label: "Regional",
+    path: "/regional",
+    hasDropdown: false,
+    children: [],
   },
   {
     id: "about",
@@ -95,33 +82,22 @@ const navigationConfig = [
     hasDropdown: false,
     children: [],
   },
-  {
-    id: "write-for-us",
-    label: "Write for Us",
-    path: "/write-for-us",
-    hasDropdown: false,
-    children: [],
-  },
 ];
 
 export default navigationConfig;
 
-// Flatten all navigable paths for route matching
 export function getAllPaths() {
   const paths = [];
   function traverse(items) {
     for (const item of items) {
       paths.push(item.path);
-      if (item.children && item.children.length > 0) {
-        traverse(item.children);
-      }
+      if (item.children && item.children.length > 0) traverse(item.children);
     }
   }
   traverse(navigationConfig);
   return paths;
 }
 
-// Find a nav item by path
 export function findNavItem(path) {
   function search(items) {
     for (const item of items) {

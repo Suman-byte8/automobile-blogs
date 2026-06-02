@@ -1,12 +1,19 @@
 // Blogs — root index
-// Aggregates all categories and re-exports utility helpers so existing
-// imports from blogData.js can be migrated here gradually.
+// Aggregates all categories and re-exports utility helpers.
 
 import newsPosts, { carNewsPosts, bikeNewsPosts, evNewsPosts, motorsportPosts } from "./news/index.js";
 import reviewsPosts, { vehicleReviewsPosts, comparisonsPosts } from "./reviews/index.js";
 import guidesPosts, { buyingGuidesPosts, accessoriesPosts } from "./guides/index.js";
+import carsPricesPosts from "./cars/prices.js";
+import bikesNewsPosts from "./bikes/news.js";
+import bikesReviewsPosts from "./bikes/reviews.js";
+import bikesPricesPosts from "./bikes/prices.js";
+import bikesComparePosts from "./bikes/compare.js";
+import evBikesPosts from "./ev/bikes.js";
+import insurancePosts from "./insurance/index.js";
+import regionalPosts from "./regional/index.js";
 
-// Re-export individual sub-categories for granular imports
+// Re-export original sub-categories
 export {
   // News
   carNewsPosts,
@@ -19,36 +26,71 @@ export {
   // Guides
   buyingGuidesPosts,
   accessoriesPosts,
+  // New categories
+  carsPricesPosts,
+  bikesNewsPosts,
+  bikesReviewsPosts,
+  bikesPricesPosts,
+  bikesComparePosts,
+  evBikesPosts,
+  insurancePosts,
+  regionalPosts,
 };
 
 // Re-export category groups
 export { newsPosts, reviewsPosts, guidesPosts };
 
-// All posts combined (preserves original blogPosts shape)
-const blogPosts = [...newsPosts, ...reviewsPosts, ...guidesPosts];
+// All posts combined
+const blogPosts = [
+  ...newsPosts,
+  ...reviewsPosts,
+  ...guidesPosts,
+  ...carsPricesPosts,
+  ...bikesNewsPosts,
+  ...bikesReviewsPosts,
+  ...bikesPricesPosts,
+  ...bikesComparePosts,
+  ...evBikesPosts,
+  ...insurancePosts,
+  ...regionalPosts,
+];
 
 // ─── Category metadata ────────────────────────────────────────────────────────
 
 export const categoryNames = {
-  "car-news": "Car News",
-  "bike-news": "Bike News",
-  "ev-news": "EV News",
-  motorsport: "Motorsport",
-  "vehicle-reviews": "Vehicle Reviews",
-  comparisons: "Comparisons",
-  "buying-guides": "Buying Guides",
-  accessories: "Accessories",
+  "cars-news": "Car News",
+  "cars-reviews": "Car Reviews",
+  "cars-prices": "Car Prices",
+  "cars-compare": "Car Comparisons",
+  "bikes-news": "Bike News",
+  "bikes-reviews": "Bike Reviews",
+  "bikes-prices": "Bike Prices",
+  "bikes-compare": "Bike Comparisons",
+  "ev-cars": "EV Cars",
+  "ev-bikes": "EV Bikes",
+  "buying-guide": "Buying Guide",
+  "insurance": "Insurance",
+  "accessories": "Accessories",
+  "regional": "Regional",
+  "motorsport": "Motorsport",
 };
 
 export const categoryParents = {
-  "car-news": "news",
-  "bike-news": "news",
-  "ev-news": "news",
-  motorsport: "news",
-  "vehicle-reviews": "reviews",
-  comparisons: "reviews",
-  "buying-guides": "guides",
-  accessories: "guides",
+  "cars-news": "cars",
+  "cars-reviews": "cars",
+  "cars-prices": "cars",
+  "cars-compare": "cars",
+  "bikes-news": "bikes",
+  "bikes-reviews": "bikes",
+  "bikes-prices": "bikes",
+  "bikes-compare": "bikes",
+  "ev-cars": "ev",
+  "ev-bikes": "ev",
+  "buying-guide": null,
+  "insurance": null,
+  "accessories": null,
+  "regional": null,
+  "motorsport": "cars",
 };
 
 // ─── Utility helpers ──────────────────────────────────────────────────────────
